@@ -5,41 +5,39 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title #{pageTitle}
+        <!-- Latest compiled and minified CSS -->
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css", integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu", crossorigin="anonymous")
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css", integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ", crossorigin="anonymous")
         link(rel="stylesheet", href="/css/main.css")
         block styles
     body 
-        .backdrop
         header.main-header 
-            nav.main-header__nav 
-                ul.main-header__item-list 
-                    li.main-header__item
-                        a(href="/", class=(path === '/' ? 'active' : '')) Shop
-                    li.main-header__item
-                        a(href="/products", class=(path === '/products' ? 'active' : '')) Products
-                    li.main-header__item
-                        a(href="/cart", class=(path === '/cart' ? 'active' : '')) Cart
-                    li.main-header__item
-                        a(href="/orders", class=(path === '/orders' ? 'active' : '')) Orders
-                    li.main-header__item
-                        a(href="/admin/add-product", class=(path === '/admin/add-product' ? 'active' : '')) Add Product
-                    li.main-header__item
-                        a(href="/admin/products", class=(path === '/admin/products' ? 'active' : '')) Admin Products
+            nav.navbar.navbar-inverse.navbar-fixed-top
+                .container 
+                    .navbar-header
+                        button(type="button", class="navbar-toggle collapsed", data-toggle="collapse", data-target="#navbar", aria-expanded="false", aria-controls="navbar")
+                            span.sr-only Toggle Navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.navbar-brand(href="#") Node Shop
+                    .navbar(id="navbar", class="collapse navbar-collapse")
+                        ul.nav.navbar-nav
+                            li(class=(path === '/' ? 'active' : ''))
+                                a(href="/") Shop
+                            li(class=(path === '/products' ? 'active' : ''))
+                                a(href="/products") Products
+                            li(class=(path === '/cart' ? 'active' : ''))
+                                a(href="/cart") Cart
+                            li(class=(path === '/orders' ? 'active' : ''))
+                                a(href="/orders") Orders
+                            li(class=(path === '/admin/add-product' ? 'active' : ''))
+                                a(href="/admin/add-product") Add Product
+                            li(class=(path === '/admin/products' ? 'active' : ''))
+                                a(href="/admin/products") Admin Products
         main 
             block content
                 
-
-        nav.mobile-nav
-            li.main-header__item
-                a(href="/", class=(path === '/' ? 'active' : '')) Shop
-            li.main-header__item
-                a(href="/products", class=(path === '/products' ? 'active' : '')) Products
-            li.main-header__item
-                a(href="/cart", class=(path === '/cart' ? 'active' : '')) Cart
-            li.main-header__item
-                a(href="/orders", class=(path === '/orders' ? 'active' : '')) Orders
-            li.main-header__item
-                a(href="/admin/add-product", class=(path === '/admin/add-product' ? 'active' : '')) Add Product
-            li.main-header__item
-                a(href="/admin/products", class=(path === '/admin/products' ? 'active' : '')) Admin Products
-
+        script(src="https://code.jquery.com/jquery-1.12.4.min.js", integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ", crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js", integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd", crossorigin="anonymous")
         script(src="/js/main.js")

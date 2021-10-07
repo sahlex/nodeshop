@@ -5,15 +5,14 @@ block styles
     link(rel="stylesheet", href="/css/product.css")
     
 block content 
-    main.centered
+    .container.centered
         h1 #{product.title} 
         hr
         div 
-            image(src=product.imageUrl, alt=product.title)
+            image.product-detail__img(src=product.imageUrl, alt=product.title)
         h2 $#{product.price}
         p #{product.description}
-        form(action='/cart', method='POST') 
-            button.btn(type='submit') Add to Cart
+        include ../includes/add-to-cart.pug
         
                     
     

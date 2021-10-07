@@ -4,7 +4,7 @@ block styles
     link(rel="stylesheet", href="/css/product.css")
     
 block content 
-    main 
+    .container
         if prods.length > 0
             .grid
                 each product in prods
@@ -17,10 +17,11 @@ block content
                             h2.product__price $#{product.price}
                             p.product__description #{product.description}
                         .card__actions
-                            a.btn(href="/admin/edit-product") Edit
+                            a.btn.btn-default(href="/admin/edit-product/"+product.id) Edit
                             form(action="/admin/delete-product", method='POST') 
-                                button.btn Delete
+                                input(type='hidden', name="productId", value=product.id)
+                                button.btn.btn-default(type='submit') Delete
         else 
             h1 No Products
-                    
+                
     
