@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^16.10.3",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "express": "^4.17.1",
     "express-handlebars": "3.0",
     "mysql2": "^2.3.0",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "sequelize": "^6.6.5"
   }
 }

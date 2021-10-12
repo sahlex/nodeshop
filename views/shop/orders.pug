@@ -1,4 +1,18 @@
 extends ../layouts/main-layout.pug 
 
+block styles 
+    link(rel='stylesheet', href='/css/orders.css')
+
 block content 
-    h1 Nothing yet...
+    .container.orders__box
+        if orders.length > 0 
+            .orders__container
+                for order in orders 
+                    .order__box
+                        h1.order__box-heading OrderNumber ##{order.id}
+                        for product in order.products 
+                            .order__item
+                                h2 #{product.title} (#{product.orderItem.quantity})
+                
+        else
+            h1 Nothing yet...

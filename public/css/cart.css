@@ -1,0 +1,30 @@
+.cart__item {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.308);
+    margin: 0.5rem;
+    padding: 1rem;
+}
+
+.cart__item__title {
+    margin-top: 0.2rem;
+    font-size: 2rem;
+}
+
+.cart__item__qty {
+    margin-top: 0.2rem;
+    text-align: left;
+    font-size: 2rem;
+}
+
+.cart__item__form {
+    
+    text-align: right;
+}
+
+.cart__checkout {
+    padding: 1rem;
+    text-align: right;
+}
+
+.cart__checkout-button {
+    margin-right: 1rem;
+}
