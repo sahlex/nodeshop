@@ -14,7 +14,7 @@ block content
                         .card__image
                             img(src=product.imageUrl, alt="A Book")
                         .card__content 
-                            h2.product__price $#{product.price}
+                            h2.product__price $#{(product.price).toFixed(2)}
                             p.product__description #{product.description}
                         .card__actions
                             include ../includes/add-to-cart.pug

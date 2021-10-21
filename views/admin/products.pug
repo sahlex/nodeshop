@@ -14,13 +14,13 @@ block content
                         .card__image
                             img(src=product.imageUrl, alt="A Book")
                         .card__content 
-                            h2.product__price $#{product.price}
+                            h2.product__price $#{(product.price).toFixed(2)}
                             p.product__description #{product.description}
                         .card__actions
-                            a.btn.btn-default(href="/admin/edit-product/"+product.id) Edit
+                            a.btn.btn-primary(href="/admin/edit-product/"+product._id) Edit
                             form(action="/admin/delete-product", method='POST') 
-                                input(type='hidden', name="productId", value=product.id)
-                                button.btn.btn-default(type='submit') Delete
+                                input(type='hidden', name="productId", value=product._id)
+                                button.btn.btn-primary(type='submit') Delete
         else 
             h1 No Products
                 

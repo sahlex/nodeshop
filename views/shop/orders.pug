@@ -8,11 +8,34 @@ block content
         if orders.length > 0 
             .orders__container
                 for order in orders 
-                    .order__box
-                        h1.order__box-heading OrderNumber ##{order.id}
-                        for product in order.products 
-                            .order__item
-                                h2 #{product.title} (#{product.orderItem.quantity})
-                
+                    .order__box.container 
+                        .row 
+                            h1.order__box-heading.col-sm-6 #{order.orderDate}
+                            h2.text-right.order__box-heading.col-sm-5.ml-auto Order ##{order._id} 
+                        .row 
+                            .container
+                                table.table.table-sm
+                                    thead
+                                        th.col-1(scope='col') Pos 
+                                        th.col-8(scope='col') Title 
+                                        th.text-right.col-1(scope='col') Qty 
+                                        th.text-right(scope='col') Price 
+                                        th.text-right.col-1(scope='col') Sum
+                                    tbody
+                                        for product,index in order.items 
+                                            tr
+                                                th(scope='row') #{index}
+                                                td #{product.title}
+                                                td.text-right #{product.quantity}
+                                                td.text-right #{(product.price).toFixed(2)}
+                                                td.text-right #{(product.quantity * product.price).toFixed(2)}
+                                        tr
+                                            td
+                                            td 
+                                            td 
+                                            th.text-right(scope='col') Total
+                                            th.text-right(scope='col') #{order.totalPrice.toFixed(2)}
+                                    
+                    
         else
             h1 Nothing yet...

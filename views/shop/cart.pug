@@ -5,20 +5,40 @@ block styles
     link(rel="stylesheet", href="/css/cart.css")
     
 block content 
-    if prods.length > 0 
-        .container.col-md-offset-3.col-md-6
-            for product in prods 
-                .cart__item.row
-                    h1.cart__item__title.col-md-4 #{product.title}
-                    h2.cart__item__qty.col-md-4 Quantity: #{product.cartItem.quantity}
-                    .col-md-4
-                        form.cart__item__form.form-inline(action="/cart-delete-item", method='POST')
-                            input(type = 'hidden', name='productId', value=product.id)
-                            button.btn.btn-danger(type="submit") Delete
-        .container.col-md-offset-3.col-md-6
-            .row
-                form.cart__checkout.form-inline(action="/create-order", method='POST')
-                    button.cart__checkout-button.btn.btn-default(type="submit") Order Now!
+    if cart.items.length > 0 
+        .container.col-md-offset-2.col-md-8
+            table.table.table-striped.table-sm
+                thead 
+                    tr 
+                        th(scope='col') Pos
+                        th(scope='col') Title 
+                        th.text-right(scope='col') Qty 
+                        th.text-right(scope='col') Price 
+                        th.text-right(scope='col') Sum 
+                        th(scope='col')
+
+                tbody
+                    each product, index in cart.items 
+                        tr
+                            th(scope='row') #{index+1}
+                            td.col-8 #{product.title}
+                            td.col-1.text-right #{product.quantity}
+                            td.col-1.text-right #{(+product.price).toFixed(2)}
+                            td.col-1.text-right #{(product.price * product.quantity).toFixed(2)}
+                            td.text-right.col-2
+                                form.form-inline(action="/cart-delete-item", method='POST')
+                                    input(type = 'hidden', name='productId', value=product._id)
+                                    button.form-control-sm.btn.btn-sm.btn-danger(type="submit") Delete
+                    tr 
+                        th(scope='col')
+                        th(scope='col')
+                        th(scope='col')
+                        th.text-right(scope='col') Sum
+                        th.text-right(scope='col') #{cart.totalPrice.toFixed(2)}
+                        th.text-right(scope='col')
+                            form.form-inline(action="/create-order", method='POST')
+                                button.form-control-sm.btn.btn-sm.btn-success(type="submit") Order Now!
+                
     else 
         .container
             h1 No products in cart

@@ -4,27 +4,19 @@
     padding: 1rem;
 }
 
-.cart__item__title {
+.cart__item-title {
     margin-top: 0.2rem;
-    font-size: 2rem;
+    font-size: 1.2rem;
 }
 
-.cart__item__qty {
+.cart__item-qty {
     margin-top: 0.2rem;
     text-align: left;
-    font-size: 2rem;
+    font-size: 1.2rem;
 }
 
-.cart__item__form {
-    
-    text-align: right;
-}
-
-.cart__checkout {
-    padding: 1rem;
-    text-align: right;
-}
-
-.cart__checkout-button {
-    margin-right: 1rem;
+.cart__item-price {
+    margin-top: 0.2rem;
+    text-align: left;
+    font-size: 1.2rem;
 }

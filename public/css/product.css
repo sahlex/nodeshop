@@ -1,12 +1,12 @@
 
 .product-item {
-    width: 30rem;
+    width: 20rem;
     max-width: 96%;
     margin: 1rem;
 }
 
 .product__title {
-    font-size: 2.2rem;
+    font-size: 1.5rem;
     text-align: center;
 }
 

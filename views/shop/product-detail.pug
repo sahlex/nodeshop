@@ -10,7 +10,7 @@ block content
         hr
         div 
             image.product-detail__img(src=product.imageUrl, alt=product.title)
-        h2 $#{product.price}
+        h2 $#{(product.price).toFixed(2)}
         p #{product.description}
         include ../includes/add-to-cart.pug
         
