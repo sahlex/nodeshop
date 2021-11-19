@@ -22,15 +22,16 @@ block content
                                         th.text-right(scope='col') Price 
                                         th.text-right.col-1(scope='col') Sum
                                     tbody
-                                        for product,index in order.items 
+                                        for item,index in order.items 
                                             tr
-                                                th(scope='row') #{index}
-                                                td #{product.title}
-                                                td.text-right #{product.quantity}
-                                                td.text-right #{(product.price).toFixed(2)}
-                                                td.text-right #{(product.quantity * product.price).toFixed(2)}
+                                                th(scope='row') #{index+1}
+                                                td #{item.product.title}
+                                                td.text-right #{item.quantity}
+                                                td.text-right #{(item.product.price).toFixed(2)}
+                                                td.text-right #{(item.quantity * item.product.price).toFixed(2)}
                                         tr
-                                            td
+                                            td 
+                                                a.btn.btn-sm.btn-primary(href="/orders/"+order._id) Invoice
                                             td 
                                             td 
                                             th.text-right(scope='col') Total

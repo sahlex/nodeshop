@@ -1,0 +1,45 @@
+extends ../layouts/main-layout.pug 
+
+block styles 
+
+block content 
+    .container.col-md-offset-3.col-md-6
+        if errorMessage
+            .row
+                .alert.alert-danger.col-12.text-center #{errorMessage}
+        form.form-horizontal(action="/signup" method="POST", novalidate) 
+            input(type='hidden' name='_csrf', value=csrfToken)
+            .form-group
+                label.col-sm-3.control-label(for="E-Mail") E-Mail
+                .col-sm-10
+                    input.form-control(
+                        type="email", 
+                        name="email", 
+                        id='email', 
+                        placeholder="Enter email", 
+                        class=(validationErrors.find(e => e.param === 'email')) ? 'is-invalid' : (oldInput && oldInput.email ? 'is-valid' : ''), 
+                        value=oldInput ? oldInput.email : '')
+                    .invalid-feedback #{validationErrors.find(e => e.param === 'email') ? validationErrors.find(e => e.param === 'email').msg : ''}
+            .form-group
+                label.col-sm-4.control-label(for="password") Password
+                .col-sm-10
+                    input.form-control(
+                        type="password",
+                        name="password",
+                        id='password', 
+                        class=(validationErrors.find(e => e.param === 'password')) ? 'is-invalid' : (oldInput && oldInput.password ? 'is-valid' : ''), 
+                        value=oldInput ? oldInput.password : '')
+                    .invalid-feedback Please enter a password with only numbers and test and at least 6 characters.
+            .form-group
+                label.col-sm-4.control-label(for="confirmPassword") Confirm Password
+                .col-sm-10
+                    input.form-control(
+                        type="password",
+                        name="confirmPassword",
+                        id='confirmPassword', 
+                        class=(validationErrors.find(e => e.param === 'confirmPassword')) ? 'is-invalid' : (oldInput && oldInput.confirmPassword ? 'is-valid' : ''), 
+                        value=oldInput ? oldInput.confirmPassword : '')
+                    .invalid-feedback Passwords do not match
+            .form-group
+                .col-sm-offset-2.col-sm-10
+                    button.btn.btn-primary(type="submit") Signup

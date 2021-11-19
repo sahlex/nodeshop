@@ -1,3 +1,5 @@
-form.form-inline(action="/cart", method='POST')
-    input(type='hidden', name='productId', value=product._id)
-    button.btn.btn-primary.mx-auto(type='submit') Add to Cart
+if isAuthenticated
+    form.form-inline(action="/cart", method='POST')
+        input(type='hidden', name='productId', value=product._id)
+        input(type='hidden', name='_csrf', value=csrfToken)
+        button.btn.btn-sm.btn-primary.mx-auto(type='submit') Add to Cart

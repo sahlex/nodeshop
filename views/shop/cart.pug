@@ -18,16 +18,17 @@ block content
                         th(scope='col')
 
                 tbody
-                    each product, index in cart.items 
+                    each item, index in cart.items 
                         tr
                             th(scope='row') #{index+1}
-                            td.col-8 #{product.title}
-                            td.col-1.text-right #{product.quantity}
-                            td.col-1.text-right #{(+product.price).toFixed(2)}
-                            td.col-1.text-right #{(product.price * product.quantity).toFixed(2)}
+                            td.col-8 #{item.product.title}
+                            td.col-1.text-right #{item.quantity}
+                            td.col-1.text-right #{(item.product.price).toFixed(2)}
+                            td.col-1.text-right #{(item.quantity * item.product.price).toFixed(2)}
                             td.text-right.col-2
                                 form.form-inline(action="/cart-delete-item", method='POST')
-                                    input(type = 'hidden', name='productId', value=product._id)
+                                    input(type='hidden', name='_csrf', value=csrfToken)
+                                    input(type = 'hidden', name='productId', value=item.product._id)
                                     button.form-control-sm.btn.btn-sm.btn-danger(type="submit") Delete
                     tr 
                         th(scope='col')
@@ -37,6 +38,7 @@ block content
                         th.text-right(scope='col') #{cart.totalPrice.toFixed(2)}
                         th.text-right(scope='col')
                             form.form-inline(action="/create-order", method='POST')
+                                input(type='hidden', name='_csrf', value=csrfToken)
                                 button.form-control-sm.btn.btn-sm.btn-success(type="submit") Order Now!
                 
     else 

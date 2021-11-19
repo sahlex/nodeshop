@@ -1,0 +1,43 @@
+extends ../layouts/main-layout.pug 
+
+block styles 
+
+block content 
+    .container.col-md-offset-3.col-md-6
+        if errorMessage
+            .row
+                .alert.alert-danger.col-12.text-center #{errorMessage}
+        form(action="/login" method="POST") 
+            input(type='hidden' name='_csrf', value=csrfToken)
+            .form-row.mb-3
+                .input-group
+                    label.col-sm-3.control-label(for="E-Mail") E-Mail
+                    .col-sm-10
+                        input.form-control(
+                            class=(validationErrors.find(e => e.param === 'email') ? 'is-invalid' : (oldInput && oldInput.email ? 'is-valid' : '')),
+                            type="text", 
+                            name="email", 
+                            id='email', 
+                            value=oldInput ? oldInput.email : '',
+                            placeholder="Enter email")
+                        .invalid-feedback #{validationErrors.find(e => e.param === 'email') ? validationErrors.find(e => e.param === 'email').msg : ''}
+            .form-row.mb-3
+                .input-group
+                    label.col-sm-4.control-label(for="password") Password
+                    .col-sm-10
+                        input.form-control(
+                            class=(validationErrors.find(e => e.param === 'password') ? 'is-invalid' : (oldInput && oldInput.password ? 'is-valid' : '')),
+                            type="password", 
+                            name="password", 
+                            value=oldInput ? oldInput.password : '',
+                            id='password')
+                        .invalid-feedback #{validationErrors.find(e => e.param === 'password') ? validationErrors.find(e => e.param === 'password').msg : ''}
+            .form-row.mb-3
+                .form-group
+                    .col-sm-offset-2.col-12
+                        button.btn.btn-primary(type="submit") Login
+            .form-row.mb-3
+                .form-group
+                    .col-sm-offset-2.col-12
+                        a.link(href='/reset') Forgot Password
+

@@ -1,29 +1,60 @@
 extends ../layouts/main-layout.pug
 
 block styles 
-    link(rel="stylesheet", href="/css/product.css")
+    link(rel="stylesheet" href="/css/product.css")
 
 block content 
     .container.col-md-offset-3.col-md-6
-        form.form-horizontal(action=product?"/admin/edit-product":"/admin/add-product", method="POST") 
-            if product
-                input(type="hidden", name="productId", value=(product ? product._id : ""))
-            .form-group
-                label.col-sm-3.control-label(for="title") Title
-                .col-sm-10
-                    input.form-control(type="text", name="title", id='title', value=(product ? product.title : ''))
-            .form-group
-                label.col-sm-3.control-label(for="imageUrl") Image URL
-                .col-sm-10
-                    input.form-control(type="text", name="imageUrl", id='imageUrl', value=(product ? product.imageUrl : ""))
-            .form-group
-                label.col-sm-3.control-label(for="price") Price
-                .col-sm-10
-                    input.form-control(type="number", name="price", id='price', step=".01", value=(product ? product.price : "0.0"))
-            .form-group
-                label.col-sm-3.control-label(for="description") Description
-                .col-sm-10
-                    textarea.form-control.noresize(name="description", id="description", rows="5") #{value=(product ? product.description : "")}
-            .form-group
-                .col-sm-offset-2.col-sm-10
-                    button.btn.btn-primary(type="submit") #{product ? "Update Product" : "Add Product"}
+        if errorMessage 
+            .alert.alert-danger #{errorMessage}
+        form(action=(product && product._id)?"/admin/edit-product":"/admin/add-product", method="POST", enctype='multipart/form-data') 
+            input(type='hidden' name='_csrf', value=csrfToken)
+            if product && product._id
+                input(type="hidden" name="productId", value=(product ? product._id : ""))
+            .mb-3
+                label.form-label(for="title") Title
+                input.form-control(
+                    type="text", name="title", 
+                    id='title', 
+                    class=(validationErrors.find(e => e.param === 'title')) ? 'is-invalid' : ((product && product.title) ? 'is-valid' : ''), 
+                    value=(product ? product.title : ''))
+                .invalid-feedback #{validationErrors.find(e => e.param === 'title') ? validationErrors.find(e => e.param === 'title').msg : ''}
+            .mb-3
+                label.form-label(for="image") Image
+                input.form-control(
+                    class=(validationErrors.find(e => e.param === 'image')) ? 'is-invalid' : ((product && product.image) ? 'is-valid' : ''), 
+                    type="file",
+                    name="image",
+                    id='image')
+                .invalid-feedback #{validationErrors.find(e => e.param === 'image') ? validationErrors.find(e => e.param === 'image').msg : ''}
+            //- .form-group
+            //-     label.col-sm-3.control-label(for="imageUrl") Image URL
+            //-     .col-sm-10
+            //-         input.form-control(
+            //-             type="text",
+            //-             name="imageUrl",
+            //-             id='imageUrl', 
+            //-             class=(validationErrors.find(e => e.param === 'imageUrl')) ? 'is-invalid' : ((product && product.imageUrl) ? 'is-valid' : ''), 
+            //-             value=(product ? product.imageUrl : ""))
+            //-         .invalid-feedback #{validationErrors.find(e => e.param === 'imageUrl') ? validationErrors.find(e => e.param === 'imageUrl').msg : ''}
+            .mb-3
+                label.form-label(for="price") Price
+                input.form-control(
+                    type="number",
+                    name="price",
+                    id='price',
+                    step=".01",,
+                    class=(validationErrors.find(e => e.param === 'price')) ? 'is-invalid' : ((product && product.price) ? 'is-valid' : ''), 
+                    value=(product ? product.price : "0.0"))
+                .invalid-feedback #{validationErrors.find(e => e.param === 'price') ? validationErrors.find(e => e.param === 'price').msg : ''}
+            .mb-3
+                label.control-label(for="description") Description
+                textarea.form-control.noresize(
+                    name="description",
+                    id="description",
+                    class=(validationErrors.find(e => e.param === 'description')) ? 'is-invalid' : ((product && product.description) ? 'is-valid' : ''), 
+                    rows="5") #{(product ? product.description : "")}
+                .invalid-feedback #{validationErrors.find(e => e.param === 'description') ? validationErrors.find(e => e.param === 'description').msg : ''}
+            .mb-3
+                
+                button.btn.btn-sm.btn-primary(type="submit") #{(product && product._id) ? "Update Product" : "Add Product"}

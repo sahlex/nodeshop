@@ -1,8 +1,13 @@
 const Product = require('../models/product');
+const Order = require('../models/order');
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
+const PDFDocument = require('pdfkit');
+const printf = require('printf');
 
 exports.getProducts = (req, res) => {
-    Product.fetchAll()
+    Product.find()
         .then((products) => {
             res.render('shop/product-list', {
                 pageTitle: 'All Products',
@@ -21,7 +26,6 @@ exports.getProduct = (req, res) => {
 
     Product.findById(prodId)
         .then((product) => {
-            console.log(product);
             res.render('shop/product-detail', {
                 pageTitle: product.title,
                 path: '/products',
@@ -35,7 +39,7 @@ exports.getProduct = (req, res) => {
 };
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
         .then((products) => {
             res.render('shop/index', {
                 prods: products,
@@ -44,26 +48,31 @@ exports.getIndex = (req, res, next) => {
             });
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            next(error);
         });
 };
 
 exports.getCart = (req, res, next) => {
-    req.user.getCart().then((cart) => {
-        // console.log('Cart: ', productsInCart);
-        res.render('shop/cart', {
-            path: '/cart',
-            pageTitle: 'Your Cart',
-            
-            cart: cart,
+    req.user
+        .getCart()
+        .then((cart) => {
+            res.render('shop/cart', {
+                path: '/cart',
+                pageTitle: 'Your Cart',
+                cart: cart,
+            });
+        })
+        .catch((err) => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            next(error);
         });
-    });
 };
 
 exports.postCart = (req, res) => {
     const prodId = req.body.productId;
-    let theCart;
-    let newQuantity = 1;
 
     Product.findById(prodId)
         .then((product) => {
@@ -73,7 +82,9 @@ exports.postCart = (req, res) => {
             res.redirect('/cart');
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            next(error);
         });
 };
 
@@ -85,16 +96,23 @@ exports.postCartDeleteProduct = (req, res, next) => {
         .then((result) => {
             res.redirect('/cart');
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            next(error);
+        });
 };
 
 exports.postOrder = (req, res, next) => {
-    req.user.addOrder()
+    req.user
+        .addOrder()
         .then((result) => {
-            res.redirect('/');
+            res.redirect('/orders');
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            next(error);
         });
 };
 
@@ -102,12 +120,58 @@ exports.getOrders = (req, res, next) => {
     req.user
         .getOrders()
         .then((orders) => {
-            // console.log("Orders:", orders);
             res.render('shop/orders', {
                 path: '/orders',
                 pageTitle: 'Your Orders',
                 orders: orders,
             });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            next(error);
+        });
+};
+
+exports.getInvoice = (req, res, next) => {
+    const orderId = req.params.orderId;
+
+    Order.findById(orderId)
+        .then((order) => {
+            if (!order) {
+                return next(new Error('No order with this id'));
+            }
+            if (order.user.userId.toString() !== req.user._id.toString()) {
+                return next(new Error('Unauthorized'));
+            }
+            const invoiceFileName = 'invoice-' + orderId + '.pdf';
+            const invoicePath = path.join('data', 'invoices', invoiceFileName);
+
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader(
+                'Content-Disposition',
+                'inline; filename="' + invoiceFileName + '"'
+            );
+            const doc = new PDFDocument();
+            doc.pipe(fs.createWriteStream(invoicePath));
+            doc.pipe(res);
+
+            doc.fontSize(26).text('Invoice', { underline: true, bold: true });
+            doc.fontSize(14);
+            doc.font('Courier');
+            doc.text('-----------------------------------------------');
+            order.items.forEach((item) => {
+                doc.text(
+                    printf('%-15s', item.product.title) +
+                        printf('%4d', item.quantity) +
+                        printf('%10.2f €', item.product.price) +
+                        printf('%14.2f €', item.product.price * item.quantity)
+                );
+            });
+            doc.text('-----------------------------------------------');
+            doc.text(printf('Sum: %40.2f €', order.totalPrice));
+
+            doc.end();
+        })
+        .catch((err) => next(err));
 };

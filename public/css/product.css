@@ -1,12 +1,12 @@
 
 .product-item {
-    width: 20rem;
+    width: 15rem;
     max-width: 96%;
     margin: 1rem;
 }
 
 .product__title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     text-align: center;
 }
 
@@ -14,6 +14,7 @@
     text-align: center;
     color: #494949;
     margin-bottom: 0.5rem;
+    font-size: 1.5rem;
 }
 
 .product__description {
