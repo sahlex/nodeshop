@@ -1,0 +1,45 @@
+extends ../layouts/main-layout.pug 
+
+block styles 
+    link(rel="stylesheet", href="/css/product.css")
+
+    
+block content 
+  
+    .container.col-md-offset-2.col-md-8
+        table.table.table-striped.table-sm
+            thead 
+                tr 
+                    th(scope='col') Pos
+                    th(scope='col') Title 
+                    th.text-right(scope='col') Qty 
+                    th.text-right(scope='col') Price 
+                    th.text-right(scope='col') Sum 
+                    th(scope='col')
+
+            tbody
+                each item, index in cart.items 
+                    tr
+                        th(scope='row') #{index+1}
+                        td.col-8 #{item.product.title}
+                        td.col-1.text-right #{item.quantity}
+                        td.col-1.text-right #{(item.product.price).toFixed(2)}
+                        td.col-1.text-right #{(item.quantity * item.product.price).toFixed(2)}
+                tr.col-8 
+                    th 
+                    th 
+                    th
+                    th.col-2.text-right(scope="col") total Sum 
+                    th.col-1.text-right(scope="col") #{cart.totalPrice.toFixed(2)} 
+    .container.col-md-offset-2.col-md-8
+        button.btn.btn-success(id="order-btn") ORDER
+        script(src="https://js.stripe.com/v3/")
+        script(type="text/javascript").
+            var stripe = Stripe('pk_test_51K1YZ6LyWGnvAwlX8rELnb8zgVQFP5kAdwE3Xrmyd24Ok3KVY94zsOR9RCFHqN3yTXoFDQTYIabCKUXLcjsi0ZnR00FXmAY4wl');
+            var orderBtn = document.getElementById('order-btn');
+            orderBtn.addEventListener('click', () => {
+                stripe.redirectToCheckout({
+                    sessionId: '#{sessionId}'
+                })
+            })
+                    

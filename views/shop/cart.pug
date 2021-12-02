@@ -37,9 +37,10 @@ block content
                         th.text-right(scope='col') Sum
                         th.text-right(scope='col') #{cart.totalPrice.toFixed(2)}
                         th.text-right(scope='col')
-                            form.form-inline(action="/create-order", method='POST')
-                                input(type='hidden', name='_csrf', value=csrfToken)
-                                button.form-control-sm.btn.btn-sm.btn-success(type="submit") Order Now!
+                            //- form.form-inline(action="/create-order", method='POST')
+                            //-     input(type='hidden', name='_csrf', value=csrfToken)
+                            //-     button.form-control-sm.btn.btn-sm.btn-success(type="submit") Order Now!
+                            a.btn.btn-sm.btn-success(href="/checkout") Order&nbsp;Now!
                 
     else 
         .container

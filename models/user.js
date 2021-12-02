@@ -26,6 +26,7 @@ const userSchema = new Schema({
             },
         ],
         totalPrice: Number,
+        stripeSession: String,
     },
 });
 
@@ -122,12 +123,18 @@ userSchema.methods.addOrder = function () {
     });
 };
 
-userSchema.methods.getOrders = function () {
+userSchema.methods.getOrders = function (limit) {
     return Order.find({ 'user.userId': this })
+        .sort({ orderDate: -1 })
+        .limit(limit)
         .then((orders) => {
             return orders;
         })
         .catch((err) => console.log(err));
+};
+
+userSchema.methods.getOrderCount = function () {
+    return Order.where({ 'user.userId': this }).countDocuments();
 };
 
 const User = mongoose.model('user', userSchema);

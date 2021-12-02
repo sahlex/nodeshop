@@ -4,7 +4,7 @@ block styles
     link(rel='stylesheet', href='/css/orders.css')
 
 block content 
-    .container.orders__box
+    .container.orders__box.mb-4
         if orders.length > 0 
             .orders__container
                 for order in orders 
@@ -36,6 +36,9 @@ block content
                                             td 
                                             th.text-right(scope='col') Total
                                             th.text-right(scope='col') #{order.totalPrice.toFixed(2)}
+            if hasMore
+                .container.col-12.mt-4.centered
+                    a(href=path+'/?limit='+(+limit+5)) mehr anzeigen
                                     
                     
         else

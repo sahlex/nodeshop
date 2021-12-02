@@ -18,11 +18,11 @@ block content
                             p.product__description #{product.description}
                         .card__actions
                             a.btn.btn-sm.btn-primary(href="/admin/edit-product/"+product._id) Edit
-                            form(action="/admin/delete-product", method='POST') 
-                                input(type='hidden', name='_csrf', value=csrfToken)
-                                input(type='hidden', name="productId", value=product._id)
-                                button.btn.btn-sm.btn-primary(type='submit') Delete
+                            input(type='hidden', name='_csrf', value=csrfToken)
+                            input(type='hidden', name="productId", value=product._id)
+                            button.btn.btn-sm.btn-primary(type='button', onclick="deleteProduct(this)") Delete
         else 
             h1 No Products
-                
+
+    script(src='/js/admin.js')
     

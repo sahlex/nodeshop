@@ -25,13 +25,14 @@ router.post(
     adminController.postEditProduct
 );
 router.get('/products', adminController.getAdminProducts);
-router.post('/delete-product', isAuth, adminController.deleteProduct);
 router.post(
     '/add-product',
     isAuth,
     productChecks,
     adminController.postAddProduct
-);
+    );
+    
+router.delete('/product/:productId', isAuth, adminController.deleteProduct);
 
 module.exports = {
     routes: router,

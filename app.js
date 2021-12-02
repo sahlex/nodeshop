@@ -24,6 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+const noCsrfRoutes = require('./routes/no-csrf');
 const errorController = require('./controllers/error');
 
 const diskStorage = multer.diskStorage({
@@ -52,7 +53,10 @@ app.use(
         store: store,
     })
 );
+// routes needed without CSRF protection
+app.use(noCsrfRoutes.routes);
 app.use(csrfProtection);
+// flash messages
 app.use(flash());
 
 app.use((req, res, next) => {

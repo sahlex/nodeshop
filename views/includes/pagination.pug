@@ -1,0 +1,15 @@
+section.pagination
+    .mx-auto.my-3
+        if currentPage > 1 && previousPage > 1
+            a.mx-2.btn.btn-outline-primary.btn-sm(href='?page=1') 1
+        if previousPage > 2
+            span ...
+        if hasPreviousPage
+            a.mx-2.btn.btn-outline-primary.btn-sm(href='?page='+previousPage) #{previousPage}
+        a.mx-2.btn.btn-primary(href='?page='+currentPage) #{currentPage}
+        if hasNextPage 
+            a.mx-2.btn.btn-outline-primary.btn-sm(href='?page='+nextPage) #{nextPage} 
+        if nextPage < lastPage - 1
+            span ...
+        if currentPage < lastPage && nextPage < lastPage
+            a.mx-2.btn.btn-outline-primary.btn-sm(href='?page='+lastPage) #{lastPage} 
